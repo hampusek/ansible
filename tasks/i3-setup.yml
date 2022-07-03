@@ -1,7 +1,7 @@
 - name: Install System Packages 4 (i3, dconf-editor, pavucontrol, ubuntu-mate-desktop)
   become: true
   apt:
-    name: [ "i3", "dconf-editor", "pavucontrol", "ubuntu-mate-desktop" ]
+    name: [ "i3", "dconf-editor", "pavucontrol"]
   tags:
     - install
     - core

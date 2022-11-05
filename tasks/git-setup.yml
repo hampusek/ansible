@@ -12,17 +12,3 @@
     value: "hampus"
   tags:
   - git-personal
-- name: Volvo
-  git_config:
-    name: user.email
-    scope: global
-    value: "hampus.ek@consultant.volvo.com"
-  tags:
-  - git-volvo
-- name: Git volvo setup name
-  git_config:
-    name: user.name
-    scope: global
-    value: "hampus"
-  tags:
-  - git-volvo 

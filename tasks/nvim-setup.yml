@@ -11,7 +11,7 @@
     - install
     - neovim
 - name: Build neovim
-  shell: "cd {{ lookup('env', 'HOME') }}/neovim && make -j 20"
+  shell: "cd {{ lookup('env', 'HOME') }}/neovim && make CMAKE_BUILD_TYPE=Release"
   tags:
     - install
     - neovim
@@ -21,8 +21,11 @@
   tags:
     - install
     - neovim
-- name: Istall Vim-Plug
-  shell: curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+- name: Istall Packer
+  ansible.builtin.git:
+    repo: https://github.com/wbthomason/packer.nvim
+    depth: 1
+    dest: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/pack/packer/start/packer.nvim"
   tags:
     - install
     - dotfiles

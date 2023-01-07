@@ -1,5 +1,5 @@
 - name: Remove neovim
-  shell: rm -rf ~/neovim
+  shell: rm -rf "{{ lookup('env', 'HOME') }}/neovim"
   tags:
     - install
     - neovim
@@ -21,7 +21,7 @@
   tags:
     - install
     - neovim
-- name: Istall Packer
+- name: Install Packer
   ansible.builtin.git:
     repo: https://github.com/wbthomason/packer.nvim
     depth: 1
@@ -30,7 +30,6 @@
     - install
     - dotfiles
     - neovimn
-
 - name: check for neovim python-venv
   shell: "cd {{ lookup('env', 'HOME') }}/.local/venv/nvim"
   register: nvim_venv_exists
@@ -39,7 +38,6 @@
     - install
     - neovim
     - pynvim
-
 - name: setup python-venv neovim
   when: nvim_venv_exists is failed
   shell: mkdir {{ lookup('env', 'HOME') }}/.local/venv && \

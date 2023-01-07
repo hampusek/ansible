@@ -1,0 +1,8 @@
+- name: Install go lsp
+  become: false
+  shell: "go install golang.org/x/tools/gopls@latest"
+  when: system_package_3_installed|success
+  tags:
+    - install
+    - core
+    - lsp

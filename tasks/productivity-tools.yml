@@ -11,7 +11,7 @@
 - name: Install packages
   become: true
   apt:
-    name: [ "tmux", "wireshark", "fzf", "gimp", "xclip", "tldr", "ripgrep", "shutter", "tree" ]
+    name: [ "tmux", "wireshark", "fzf", "gimp", "xclip", "tldr", "ripgrep", "shutter", "tree", "zathura" ]
   tags:
     - install
     - productivity

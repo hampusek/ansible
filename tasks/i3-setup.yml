@@ -2,21 +2,30 @@
   become: true
   apt:
     name: [ "i3", "dconf-editor", "pavucontrol"]
-  tags:
-    - install
-    - core
-    - i3
+  tags: "{{ i3_tags }}"
 
 - name: dconf i3
   shell: dconf write /org/mate/desktop/session/required-components/windowmanager "'i3'"
-  tags:
-    - install
-    - core
-    - i3
+  tags: "{{ i3_tags }}"
 
 - name: dconf i3
   shell: dconf write /org/mate/desktop/background/show-desktop-icons "false"
-  tags:
-    - install
-    - core
-    - i3
+  tags: "{{ i3_tags }}"
+
+- name: Clone picom
+  ansible.builtin.git:
+    repo: 'https://github.com/yshui/picom.git'
+    dest: "{{ picom_dir }}"
+    recursive: yes
+    update: yes
+    version: v10.2
+  tags: "{{ i3_tags }}"
+
+- name: Build and install picom
+  become: true
+  shell: meson --buildtype=release . build && ninja -C build install
+  args:
+    chdir: "{{ picom_dir }}"
+  tags: "{{ i3_tags }}"
+
+

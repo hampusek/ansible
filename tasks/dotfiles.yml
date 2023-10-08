@@ -9,9 +9,8 @@
   ansible.builtin.git:
     repo: 'https://github.com/hampusek/.dotfiles.git'
     dest: "{{ lookup('env', 'HOME') }}/.dotfiles"
-    recursive: yes
+    recursive: no
     update: yes
-      #accept_hostkey: yes
     version: master
   tags:
     - install

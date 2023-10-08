@@ -7,4 +7,4 @@ build:
 	docker build --build-arg TAGS=install --tag ansible .
 
 run:
-	docker run ansible
+	docker run -it --rm  ansible /bin/bash ansible-playbook -t core -t neovim local.yml

@@ -21,40 +21,14 @@
   tags:
     - install
     - neovim
-- name: Install Packer
-  ansible.builtin.git:
-    repo: https://github.com/wbthomason/packer.nvim
-    depth: 1
-    dest: "{{ lookup('env', 'HOME') }}/.local/share/nvim/site/pack/packer/start/packer.nvim"
-  tags:
-    - install
-    - dotfiles
-    - neovimn
-- name: check for neovim python-venv
-  shell: "cd {{ lookup('env', 'HOME') }}/.local/venv/nvim"
-  register: nvim_venv_exists
-  ignore_errors: yes
-  tags:
-    - install
-    - neovim
-    - pynvim
-- name: setup python-venv neovim
-  when: nvim_venv_exists is failed
-  shell: mkdir {{ lookup('env', 'HOME') }}/.local/venv && \
-    python3 -m venv {{ lookup('env', 'HOME') }}/.local/venv/nvim
-  tags:
-    - install
-    - neovim
-    - pynvim
 
 - name: install python packages to neovim python venv
-  when: nvim_venv_exists is failed
   pip:
     name:
       - pynvim
       - pyright
-    virtualenv: "{{ lookup('env', 'HOME') }}/.local/venv/nvim"
-    virtualenv_python: python3.8
+      - debugpy
+    executable: "pip3"
   tags:
     - install
     - neovim

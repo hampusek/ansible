@@ -7,14 +7,3 @@
     - core
     - lsp
 
-- name: Install jedi lsp for python
-  become: false
-  pip:
-    name:
-      jedi-language-server
-    executable: "pip3"
-    extra_args: "-U"
-  tags:
-    - install
-    - core
-    - lsp

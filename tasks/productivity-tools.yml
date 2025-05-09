@@ -1,31 +1,21 @@
-- name: shutter ppa (ppa:linuxuprising/shutter)
-  become: true
-  apt_repository:
-   repo: ppa:linuxuprising/shutter
-   state: present
-   update_cache: True
-  tags:
-    - install
-    - productivity
-
 - name: Install packages
   become: true
   apt:
-    name: [ "tmux", "wireshark", "fzf", "gimp", "xclip", "tldr", "ripgrep", "shutter", "tree", "zathura", "texlive" ]
+    name: [ "tmux", "wireshark", "fzf", "xclip", "tldr", "ripgrep", "tree", "zathura", "texlive" ]
   tags:
     - install
     - productivity
 
 - name: Download pandoc deb
   ansible.builtin.get_url:
-    url: https://github.com/jgm/pandoc/releases/download/2.19.2/pandoc-2.19.2-1-amd64.deb
+    url: https://github.com/jgm/pandoc/releases/download/3.6.4/pandoc-3.6.4-1-amd64.deb
     dest: "{{ lookup('env', 'HOME') }}"
   tags:
     - install
     - productivity
 
 - name: Install pandoc
-  shell: sudo dpkg -i pandoc-2.19.2-1-amd64.deb
+  shell: sudo dpkg -i pandoc-3.6.4-1-amd64.deb
   tags:
     - install
     - productivity

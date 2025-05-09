@@ -5,6 +5,7 @@
     - dotfiles
     - stow
   become: true
+
 - name: Cloning .dotfiles
   ansible.builtin.git:
     repo: 'https://github.com/hampusek/.dotfiles.git'
@@ -16,6 +17,7 @@
     - install
     - dotfiles
     - stow
+
 - name: Stow dotfiles
   shell: cd ~/.dotfiles && chmod +x ~/.dotfiles/ubuntu && \
     chmod +x ~/.dotfiles/install && ./ubuntu

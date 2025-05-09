@@ -1,0 +1,36 @@
+- name: Ghostty dependencies
+  become: true
+  apt:
+    update_cache: true
+    pkg:
+      - libgtk-4-dev
+      - libadwaita-1-dev
+  tags:
+    - install
+    - ghostty
+
+- name: Clone ghostty
+  ansible.builtin.git:
+    repo: 'https://github.com/ghostty-org/ghostty.git'
+    version: v1.0.0
+    depth: 1
+    dest: "{{ lookup('env', 'HOME') }}/ghostty"
+  tags:
+    - install
+    - ghostty
+
+- name: check zig
+  ansible.builtin.shell:
+    cmd: "ls -la /usr/local/zig-linux-x86_64-{{ zig_version }}"
+  tags:
+    - install
+    - ghostty
+
+- name: Build ghostty
+  ansible.builtin.shell:
+    cmd: "/usr/local/zig-linux-x86_64-{{ zig_version }}/zig build -p $HOME/.local -Doptimize=ReleaseFast"
+      #cmd: "zig build -p $HOME/.local -Doptimize=ReleaseFast"
+    chdir: "{{ lookup('env', 'HOME') }}/ghostty"
+  tags:
+    - install
+    - ghostty

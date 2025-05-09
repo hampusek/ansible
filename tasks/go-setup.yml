@@ -1,0 +1,28 @@
+- name: Download Go
+  ansible.builtin.get_url:
+    url: https://go.dev/dl/go{{ go_version }}.linux-amd64.tar.gz
+    dest: "{{ lookup('env', 'HOME') }}"
+  tags:
+    - install
+    - go
+
+- name: Install go
+  become: true
+  ansible.builtin.shell:
+    cmd: |
+      rm -rf /usr/local/go
+      tar -C /usr/local -xzf go{{ go_version }}.linux-amd64.tar.gz
+      rm go{{ go_version }}.linux-amd64.tar.gz
+    chdir: "{{ lookup('env', 'HOME') }}"
+  tags:
+    - install
+    - go
+
+- name: Add go to path
+  shell: |
+    export PATH=$PATH:/usr/local/go/bin
+    echo PATH=$PATH:/usr/local/go/bin >> "{{ lookup('env', 'HOME') }}"/.zshrc
+  tags:
+    - install
+    - go
+

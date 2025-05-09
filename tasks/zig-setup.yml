@@ -1,0 +1,31 @@
+- name: Download zig
+  ansible.builtin.get_url:
+    url: https://ziglang.org/download/{{ zig_version }}/zig-linux-x86_64-{{ zig_version }}.tar.xz
+    dest: "{{ lookup('env', 'HOME') }}"
+  tags:
+    - install
+    - zig
+    - ghostty
+
+- name: Install zig
+  become: true
+  ansible.builtin.shell:
+    cmd: |
+      rm -rf /usr/local/zig-linux-x86_64-{{ zig_version }}
+      tar -C /usr/local -xf zig-linux-x86_64-{{ zig_version }}.tar.xz
+      rm zig-linux-x86_64-{{ zig_version }}.tar.xz
+    chdir: "{{ lookup('env', 'HOME') }}"
+  tags:
+    - install
+    - zig
+    - ghostty
+
+- name: Add zig to path
+  shell: |
+    export PATH=$PATH:/usr/local/zig-linux-x86_64-{{ zig_version }}
+    echo PATH=$PATH:/usr/local/zig-linux-x86_64-{{ zig_version }} >> "{{ lookup('env', 'HOME') }}"/.zshrc
+  tags:
+    - install
+    - zig
+    - ghostty
+

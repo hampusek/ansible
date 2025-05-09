@@ -4,6 +4,8 @@
     dest_key: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519_github"
     i3_tags: ["install", "i3"]
     picom_dir: "{{ lookup('env', 'HOME') }}"
+    go_version: "1.23.4"
+    zig_version: "0.13.0"
   pre_tasks:
   - name: Update Apt
     become: true
@@ -15,11 +17,48 @@
       - install
       - core
   tasks:
-    - include: tasks/git-setup.yml
-    - include: tasks/core-setup.yml
-    - include: tasks/i3-setup.yml
-    - include: tasks/zsh-setup.yml
-    - include: tasks/nvim-setup.yml
-    - include: tasks/brave.yml
-    - include: tasks/dotfiles.yml
-    - include: tasks/productivity-tools.yml
+    - name: git
+      include_tasks:
+        file: tasks/git-setup.yml
+        apply:
+          tags: git-personal
+
+    - name: core
+      include_tasks: tasks/core-setup.yml
+      tags: [ install, neovim, core ]
+
+    - name: i3
+      include_tasks: tasks/i3-setup.yml
+      tags: "{{ i3_tags }}"
+
+    - name: zsh
+      include_tasks: tasks/zsh-setup.yml
+      tags: [ install, productivity, dotfiles, zsh ]
+
+    - name: nvim
+      include_tasks: tasks/nvim-setup.yml
+      tags: [ install, neovim, pynvim ]
+
+    - name: brave
+      include_tasks: tasks/brave.yml
+      tags: [ install, brave ]
+
+    - name: dotfiles
+      include_tasks: tasks/dotfiles.yml
+      tags: [ install, dotfiles, stow ]
+
+    - name: productivity-tools
+      include_tasks: tasks/productivity-tools.yml
+      tags: [ install, productivity ]
+
+    - name: go
+      include_tasks: tasks/go-setup.yml
+      tags: [ install, go ]
+
+    - name: zig
+      include_tasks: tasks/zig-setup.yml
+      tags: [ zig, ghostty ]
+
+    - name: ghostty
+      include_tasks: tasks/ghostty-setup.yml
+      tags: ghostty
